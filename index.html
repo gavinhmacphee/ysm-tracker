@@ -2745,6 +2745,19 @@
     });
 
     // ===================== INIT =====================
+    // Auto-save token from URL param (e.g. ?token=github_pat_...)
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        const urlToken = params.get('token');
+        if (urlToken) {
+            setGitHubToken(urlToken);
+            // Strip token from URL so it's not visible/bookmarked
+            params.delete('token');
+            const clean = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+            window.history.replaceState({}, '', clean);
+        }
+    })();
+
     populateProjectSelect();
     render();
     renderDevTasks();
