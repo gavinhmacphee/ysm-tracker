@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YSM Project Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal: #2b6a65;
+            --teal-dark: #1e4d49;
+            --teal-deep: #163a37;
+            --teal-light: #3a8a84;
+            --gold: #c8963e;
+            --gold-light: #e8c97a;
+            --cream: #f8f5ef;
+            --cream-warm: #f0ebe1;
+            --ink: #1a1a18;
+            --ink-secondary: #484842;
+            --ink-muted: #84837a;
+            --border: #d2cdc3;
+            --border-light: #e5e0d6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* Soccer Signal Bar */
+        .soccer-bar {
+            background: var(--teal-deep);
+            padding: 0.55rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .soccer-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; height: 50px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .soccer-bar span { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; color: rgba(255,255,255,0.65); }
+        .soccer-bar strong { color: var(--gold-light); font-weight: 600; }
+
+        /* Site Header */
+        .site-header {
+            background: var(--cream);
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .site-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 0.08em;
+            color: var(--teal-deep);
+        }
+
+        /* Pitch Stripe */
+        .pitch-stripe {
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal-deep), var(--teal-light), var(--gold));
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--teal-deep) 0%, var(--teal-dark) 50%, var(--teal) 100%);
+            color: white;
+            padding: 40px 32px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px; height: 300px;
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 0.04em;
+            position: relative;
+        }
+        .hero p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: rgba(255,255,255,0.7);
+            font-size: 16px;
+            margin-top: 6px;
+            position: relative;
+        }
+        .last-updated {
+            font-family: 'DM Sans', sans-serif;
+            font-style: normal;
+            font-size: 12px;
+            color: rgba(255,255,255,0.45);
+            margin-top: 12px;
+            position: relative;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+        /* Goals */
+        .goals-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .goal-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--teal);
+            padding: 14px 16px;
+        }
+        .goal-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            color: var(--ink-muted);
+            margin-bottom: 4px;
+        }
+        .goal-text {
+            font-size: 14px;
+            color: var(--ink);
+            cursor: text;
+            min-height: 22px;
+            outline: none;
+            border-bottom: 1px dashed transparent;
+            transition: border-color 0.15s;
+        }
+        .goal-text:hover { border-bottom-color: var(--border); }
+        .goal-text:focus { border-bottom-color: var(--teal); }
+        .goal-text[data-placeholder]:empty::before {
+            content: attr(data-placeholder);
+            color: var(--ink-muted);
+            font-style: italic;
+        }
+        .goal-done .goal-text {
+            text-decoration: line-through;
+            color: var(--ink-muted);
+        }
+        .goal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .goal-btn {
+            font-size: 11px;
+            color: var(--ink-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            padding: 2px 0;
+        }
+        .goal-btn:hover { color: var(--teal); }
+
+        /* Summary Stats */
+        .summary {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .summary-stat {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 14px 18px;
+            flex: 1;
+            min-width: 100px;
+        }
+        .summary-stat .label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--ink-muted);
+            margin-bottom: 4px;
+        }
+        .summary-stat .value {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .summary-stat .value.teal { color: var(--teal); }
+        .summary-stat .value.gold { color: var(--gold); }
+        .summary-stat .value.green { color: #16a34a; }
+        .summary-stat .sub {
+            font-size: 12px;
+            color: var(--ink-muted);
+            margin-top: 2px;
+        }
+
+        /* Section Headers */
+        .section-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* Pipeline */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 36px;
+            min-height: 200px;
+        }
+        .pipeline-col {
+            background: var(--cream-warm);
+            border: 1px solid var(--border-light);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        .pipeline-col-header {
+            padding: 12px 12px 8px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pipeline-col-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.05em;
+            color: var(--ink-secondary);
+        }
+        .pipeline-col-count {
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--border-light);
+            color: var(--ink-muted);
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pipeline-col-body {
+            padding: 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Stage colors */
+        .pipeline-col[data-stage="ideas"] .pipeline-col-header { border-bottom-color: var(--ink-muted); }
+        .pipeline-col[data-stage="planned"] .pipeline-col-header { border-bottom-color: #6366f1; }
+        .pipeline-col[data-stage="building"] .pipeline-col-header { border-bottom-color: #d97706; }
+        .pipeline-col[data-stage="testing"] .pipeline-col-header { border-bottom-color: #0891b2; }
+        .pipeline-col[data-stage="next"] .pipeline-col-header { border-bottom-color: #16a34a; }
+        .pipeline-col[data-stage="launched"] .pipeline-col-header { border-bottom-color: var(--teal); }
+
+        /* Pipeline Cards */
+        .p-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            cursor: default;
+            position: relative;
+            transition: box-shadow 0.12s;
+        }
+        .p-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .p-card-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.03em;
+            color: var(--ink);
+            line-height: 1.2;
+        }
+        .p-card-path {
+            font-size: 10px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            color: var(--ink-muted);
+            margin-top: 2px;
+            opacity: 0.7;
+        }
+        .p-card-desc {
+            font-size: 12px;
+            color: var(--ink-muted);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+        .p-card-progress {
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .p-card-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--border-light);
+            overflow: hidden;
+        }
+        .p-card-bar-fill {
+            height: 100%;
+            background: var(--teal);
+            transition: width 0.2s;
+        }
+        .p-card-pct {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-muted);
+            white-space: nowrap;
+        }
+        .p-card-notes {
+            font-size: 12px;
+            color: var(--ink-secondary);
+            margin-top: 5px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .p-card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+            gap: 4px;
+        }
+        .p-card-move {
+            font-size: 14px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: 1px solid var(--border-light);
+            color: var(--ink-muted);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .p-card-move:hover { background: var(--cream-warm); color: var(--ink); border-color: var(--border); }
+        .p-card-move:disabled { opacity: 0.25; cursor: default; }
+        .p-card-move:disabled:hover { background: none; color: var(--ink-muted); border-color: var(--border-light); }
+        .p-card-order {
+            display: flex;
+            gap: 2px;
+        }
+        .p-card-order-btn {
+            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: 1px solid var(--border-light);
+            color: var(--ink-muted);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .p-card-order-btn:hover { background: var(--cream-warm); }
+
+        /* Card expanded state */
+        .p-card.expanded .p-card-tasks {
+            display: block;
+        }
+        .p-card-tasks {
+            display: none;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-light);
+        }
+        .p-card-expand {
+            font-size: 11px;
+            color: var(--ink-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            padding: 0;
+        }
+        .p-card-expand:hover { color: var(--teal); }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            padding: 4px 0;
+            font-size: 12px;
+            color: var(--ink-secondary);
+        }
+        .task-check {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .task-check:hover { border-color: var(--teal); }
+        .task-check.done {
+            background: var(--teal);
+            border-color: var(--teal);
+        }
+        .task-check.done::after {
+            content: '';
+            width: 5px;
+            height: 3px;
+            border-left: 1.5px solid white;
+            border-bottom: 1.5px solid white;
+            transform: rotate(-45deg);
+            margin-top: -1px;
+        }
+        .task-text { flex: 1; }
+        .task-text.done { text-decoration: line-through; color: var(--ink-muted); }
+
+        /* Notes editing */
+        .p-card-notes-input {
+            width: 100%;
+            font-size: 12px;
+            font-family: inherit;
+            color: var(--ink-secondary);
+            border: 1px solid var(--border);
+            background: var(--cream);
+            padding: 4px 6px;
+            margin-top: 5px;
+            resize: vertical;
+            min-height: 28px;
+            outline: none;
+        }
+        .p-card-notes-input:focus { border-color: var(--teal); }
+
+        /* Idea input */
+        .idea-input-wrap {
+            padding: 8px;
+            padding-top: 0;
+        }
+        .idea-input {
+            width: 100%;
+            font-size: 13px;
+            font-family: inherit;
+            border: 1px dashed var(--border);
+            background: white;
+            padding: 6px 8px;
+            outline: none;
+            color: var(--ink);
+        }
+        .idea-input::placeholder { color: var(--ink-muted); font-style: italic; }
+        .idea-input:focus { border-color: var(--teal); border-style: solid; }
+
+        /* Launch Schedule */
+        .schedule {
+            margin-bottom: 36px;
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .schedule-table th {
+            text-align: left;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            color: var(--ink-muted);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .schedule-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 14px;
+        }
+        .schedule-week {
+            font-weight: 600;
+            color: var(--ink-secondary);
+            white-space: nowrap;
+        }
+        .schedule-product select {
+            font-family: inherit;
+            font-size: 14px;
+            border: 1px solid var(--border-light);
+            background: white;
+            padding: 4px 8px;
+            color: var(--ink);
+            outline: none;
+            cursor: pointer;
+        }
+        .schedule-product select:focus { border-color: var(--teal); }
+        .schedule-add {
+            font-size: 13px;
+            color: var(--ink-muted);
+            cursor: pointer;
+            background: none;
+            border: 1px dashed var(--border);
+            padding: 8px 16px;
+            font-family: inherit;
+            margin-top: 8px;
+        }
+        .schedule-add:hover { border-color: var(--teal); color: var(--teal); }
+
+        /* Collapsible sections */
+        .collapsible {
+            margin-bottom: 28px;
+        }
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gold);
+            margin-bottom: 12px;
+        }
+        .collapsible-header .section-label {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .collapsible-toggle {
+            font-size: 12px;
+            color: var(--ink-muted);
+            transition: transform 0.15s;
+        }
+        .collapsible.collapsed .collapsible-toggle { transform: rotate(-90deg); }
+        .collapsible.collapsed .collapsible-body { display: none; }
+        .collapsible-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        /* Simple card for standalone/internal */
+        .simple-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+        }
+        .simple-card-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 17px;
+            letter-spacing: 0.03em;
+            color: var(--ink);
+        }
+        .simple-card-desc {
+            font-size: 13px;
+            color: var(--ink-muted);
+            margin-top: 2px;
+        }
+        .simple-card-meta {
+            font-size: 11px;
+            color: var(--ink-muted);
+            margin-top: 6px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+
+        /* Session Log */
+        .session-log {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 18px;
+            margin-bottom: 36px;
+        }
+        .session-log h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+        .session-entry {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            gap: 14px;
+            font-size: 13px;
+        }
+        .session-entry:last-child { border-bottom: none; }
+        .session-date {
+            color: var(--ink-muted);
+            white-space: nowrap;
+            width: 100px;
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+        .session-notes { color: var(--ink-secondary); flex: 1; }
+
+        /* View Toggle */
+        .view-toggle { display: flex; gap: 0; }
+        .view-btn {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            background: var(--cream-warm);
+            color: var(--ink-muted);
+            cursor: pointer;
+        }
+        .view-btn:first-child { border-right: none; }
+        .view-btn.active { background: var(--teal); color: white; border-color: var(--teal); }
+        .view-btn:hover:not(.active) { background: white; }
+
+        /* Task List View */
+        .task-list-table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); }
+        .task-list-table th {
+            text-align: left;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            color: var(--ink-muted);
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--border);
+            background: var(--cream-warm);
+            position: sticky;
+            top: 0;
+        }
+        .task-list-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 13px;
+            vertical-align: top;
+        }
+        .task-list-table tr:hover { background: var(--cream); }
+        .task-list-table .tl-product {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.03em;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+        .task-list-table .tl-path {
+            font-size: 10px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            color: var(--ink-muted);
+            opacity: 0.7;
+        }
+        .task-list-table .tl-task { color: var(--ink-secondary); }
+        .task-list-table .tl-task.done { text-decoration: line-through; color: var(--ink-muted); }
+        .tl-stage {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 6px;
+            display: inline-block;
+        }
+        .tl-stage.ideas { background: #f3f4f6; color: var(--ink-muted); }
+        .tl-stage.planned { background: #eef2ff; color: #6366f1; }
+        .tl-stage.building { background: #fef3c7; color: #d97706; }
+        .tl-stage.testing { background: #ecfeff; color: #0891b2; }
+        .tl-stage.next { background: #dcfce7; color: #16a34a; }
+        .tl-stage.launched { background: rgba(43,106,101,0.1); color: var(--teal); }
+        .tl-stage.standalone { background: #fef3c7; color: #92400e; }
+        .task-list-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .tl-filter-btn {
+            font-size: 12px;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--ink-muted);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .tl-filter-btn.active { background: var(--teal); color: white; border-color: var(--teal); }
+        .tl-filter-btn.gavin-btn { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+        .tl-filter-btn.gavin-btn.active { background: var(--gold); color: var(--teal-deep); border-color: var(--gold); }
+        .tl-filter-btn.gavin-btn:hover:not(.active) { background: rgba(200,150,62,0.1); }
+        .tl-filter-btn:hover:not(.active):not(.gavin-btn) { border-color: var(--teal); color: var(--teal); }
+        .tl-gavin-tag {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 1px 5px;
+            background: var(--gold);
+            color: var(--teal-deep);
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        .tl-copy-btn {
+            font-size: 12px;
+            padding: 4px 10px;
+            border: 1px solid var(--gold);
+            background: var(--gold);
+            color: var(--teal-deep);
+            cursor: pointer;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.04em;
+            margin-left: auto;
+        }
+        .tl-copy-btn:hover { background: var(--gold-light); }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .pipeline {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .pipeline-col { min-height: auto; }
+            .goals-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+        @media (max-width: 700px) {
+            .container { padding: 20px 16px; }
+            .hero { padding: 28px 16px 24px; }
+            .hero h1 { font-size: 28px; }
+            .summary { flex-direction: column; }
+            .collapsible-body { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="soccer-bar">
+        <span>&#9917;</span>
+        <span><strong>Youth Soccer Marketing</strong> - Project Board</span>
+    </div>
+    <div class="site-header">
+        <span class="site-logo">YOUTH SOCCER MARKETING</span>
+    </div>
+    <div class="pitch-stripe"></div>
+
+    <div class="hero">
+        <h1>PROJECT BOARD</h1>
+        <p>Everything in one place</p>
+        <div class="last-updated" id="lastUpdated"></div>
+    </div>
+
+    <div class="container">
+        <!-- Goals -->
+        <div class="goals-row" id="goalsRow"></div>
+
+        <!-- Summary -->
+        <div class="summary" id="summary"></div>
+
+        <!-- View Toggle -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <div class="section-label" style="margin-bottom:0;padding-bottom:0;border-bottom:none">PIPELINE</div>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="pipeline">Board</button>
+                <button class="view-btn" data-view="tasklist">Task List</button>
+            </div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="pipeline" id="pipeline"></div>
+
+        <!-- Full Task List -->
+        <div id="taskListView" style="display:none;margin-bottom:36px"></div>
+
+        <!-- Launch Schedule -->
+        <div class="section-label">LAUNCH SCHEDULE</div>
+        <div class="schedule" id="schedule"></div>
+
+        <!-- Separate Projects -->
+        <div class="collapsible" id="separateSection">
+            <div class="collapsible-header" onclick="toggleCollapse('separateSection')">
+                <span class="collapsible-toggle">&#9660;</span>
+                <span class="section-label">SEPARATE PROJECTS</span>
+            </div>
+            <div class="collapsible-body" id="separateGrid"></div>
+        </div>
+
+        <!-- Internal Tools -->
+        <div class="collapsible" id="internalSection">
+            <div class="collapsible-header" onclick="toggleCollapse('internalSection')">
+                <span class="collapsible-toggle">&#9660;</span>
+                <span class="section-label">INTERNAL TOOLS</span>
+            </div>
+            <div class="collapsible-body" id="internalGrid"></div>
+        </div>
+
+        <!-- Session Log -->
+        <div class="session-log">
+            <h3>SESSION LOG</h3>
+            <div id="sessionLog"></div>
+        </div>
+    </div>
+
+    <script>
+    // ===================== DATA =====================
+    const LAST_UPDATED = 'Feb 17, 2026';
+    const STORAGE_KEY = 'ysmProjectBoard';
+    const STAGES = ['ideas', 'planned', 'building', 'testing', 'next', 'launched'];
+    const STAGE_LABELS = {
+        ideas: 'Ideas', planned: 'Planned', building: 'Building',
+        testing: 'Testing', next: 'Next on Deck', launched: 'Launched',
+        standalone: 'Standalone', internal: 'Internal'
+    };
+
+    // Default products with their initial stage assignments
+    const DEFAULT_PRODUCTS = [
+        {
+            id: 'give-and-go',
+            name: 'Give and Go',
+            desc: 'Soccer graphics maker - camp flyers, match results, player spotlights',
+            stage: 'testing',
+            path: 'products/give-and-go',
+            live: 'https://giveandgo.youthsoccermarketing.com/',
+            tasks: [
+                { text: 'Core app built and deployed on Vercel', done: true },
+                { text: 'Landing page with pricing tiers', done: true },
+                { text: 'Landing page live on WordPress (/give-and-go/)', done: true },
+                { text: '[GAVIN] Stripe payment link integration - create Payment Links in Stripe dashboard', done: false },
+                { text: 'License key backend (GAS)', done: true },
+                { text: '[GAVIN] Replace STRIPE_PAYMENT_LINK_URL placeholders (landing.html lines 1292 + 1319)', done: false },
+            ]
+        },
+        {
+            id: 'club-lead-tracker',
+            name: 'Club Lead Tracker',
+            desc: 'CRM for youth soccer clubs - lead forms, dashboard, outreach',
+            stage: 'building',
+            path: 'products/club-lead-tracker',
+            tasks: [
+                { text: 'Lead form + dashboard + demo', done: true },
+                { text: 'Pro dashboard with sparklines and alerts', done: true },
+                { text: 'Outreach dashboard built', done: true },
+                { text: 'Outreach demo with sample data', done: true },
+                { text: '[GAVIN] Deploy outreach GAS endpoints (add Outreach.gs to existing GAS project, deploy new version)', done: false },
+                { text: '[GAVIN] Seed email templates in Google Sheet (run seedEmailTemplates() in GAS editor)', done: false },
+                { text: 'YSM v5 branding on outreach pages', done: true },
+            ]
+        },
+        {
+            id: 'tryout-evaluator',
+            name: 'Tryout Evaluator',
+            desc: 'Pinnie-first scoring, multi-evaluator dashboard, auto-average',
+            stage: 'building',
+            path: 'products/tryout-evaluator',
+            tasks: [
+                { text: 'Core scoring and evaluation flow', done: true },
+                { text: 'Multi-evaluator dashboard with drill-down', done: true },
+                { text: 'Editable criteria', done: true },
+                { text: 'Roster mapping', done: true },
+                { text: 'Polish and launch prep', done: true },
+            ]
+        },
+        {
+            id: 'college-commit-pack',
+            name: 'College Commit Pack',
+            desc: 'Commit graphics, forms, admin dashboard, interactive map',
+            stage: 'building',
+            path: 'products/college-commit-pack',
+            tasks: [
+                { text: 'Commit form + pack generator', done: true },
+                { text: 'Admin dashboard', done: true },
+                { text: 'Interactive map', done: true },
+                { text: 'Setup guide', done: true },
+            ]
+        },
+        {
+            id: 'parent-testimonial-requester',
+            name: 'Parent Testimonial Requester',
+            desc: 'Request, collect, and display parent testimonials',
+            stage: 'building',
+            path: 'products/parent-testimonial-requester',
+            tasks: [
+                { text: 'Testimonial form + widget', done: true },
+                { text: 'Review dashboard', done: true },
+                { text: 'Apps Script backend', done: true },
+                { text: 'Thank you page', done: true },
+                { text: 'Setup guide', done: true },
+            ]
+        },
+        {
+            id: 'programflow',
+            name: 'ProgramFlow',
+            desc: 'Visual program/curriculum editor for clubs',
+            stage: 'building',
+            path: 'products/programflow',
+            tasks: [
+                { text: 'Editor + preview', done: true },
+                { text: 'Google Sheets backend', done: true },
+                { text: 'Landing page', done: true },
+                { text: 'Neutral (white-label) version', done: true },
+            ]
+        },
+        {
+            id: 'postgame',
+            name: 'PostGame',
+            desc: 'Quick social media post generator for match results',
+            stage: 'building',
+            path: 'products/postgame',
+            tasks: [
+                { text: 'Tool built and live on WordPress', done: true },
+                { text: 'Landing page', done: true },
+            ]
+        },
+        {
+            id: 'tournament-scheduler',
+            name: 'Tournament Scheduler',
+            desc: 'Bracket and schedule builder for tournaments',
+            stage: 'building',
+            path: 'products/tournament-scheduler',
+            tasks: [
+                { text: 'JSX component built', done: true },
+                { text: 'Vite build scaffolding + npm install + build tested', done: true },
+                { text: '[GAVIN] Standalone deployment - push to GitHub + import in Vercel', done: false },
+            ]
+        },
+        {
+            id: 'team-profitability-calculator',
+            name: 'Team Profitability Calculator',
+            desc: 'Club team cost and profit calculator with seasonal field breakdown',
+            stage: 'building',
+            path: 'products/team-profitability-calculator',
+            tasks: [
+                { text: 'Calculator built with seasonal field costs', done: true },
+                { text: 'Landing page copy written', done: true },
+                { text: 'YSM v5 branding', done: true },
+                { text: '[GAVIN] Deploy to site (WordPress blank canvas page or subdomain)', done: false },
+            ]
+        },
+        {
+            id: 'college-roster-analyzer',
+            name: 'College Roster Analyzer',
+            desc: 'D1 soccer roster scraper + stats + tactical profiles for college recruiting',
+            stage: 'ideas',
+            path: 'products/college-roster-analyzer',
+            tasks: [
+                { text: 'JSX app prototype built', done: true },
+                { text: 'Data source research (three tiers)', done: true },
+                { text: 'Python scraper for D1 roster pages (SIDEARM)', done: true },
+                { text: '[GAVIN] NCAA stats API - no free public API exists, needs paid provider or manual data', done: false },
+                { text: 'Manual tactical profiles for top 30-50 schools', done: false },
+                { text: 'Standalone HTML deployment', done: false },
+            ]
+        },
+        {
+            id: 'calculator',
+            name: 'Calculator',
+            desc: 'Registration revenue calculator - live on site',
+            stage: 'launched',
+            path: 'website/',
+            live: 'https://youthsoccermarketing.com',
+            tasks: [
+                { text: 'Calculator built and deployed', done: true },
+            ]
+        },
+        {
+            id: 'website-planning',
+            name: 'Website Planning',
+            desc: 'Interactive website planning tool - live on site, needs work',
+            stage: 'launched',
+            path: 'website/',
+            live: 'https://youthsoccermarketing.com',
+            tasks: [
+                { text: 'Tool built and deployed', done: true },
+                { text: 'Polish and improve', done: false },
+            ]
+        },
+
+        // ── GUIDES (Priority Order) ──
+        {
+            id: 'guide-8-tips',
+            name: '8 Simple Marketing Tips',
+            desc: 'Interactive guide - checklists, assessment, action plan',
+            type: 'guide',
+            stage: 'building',
+            path: 'website/8-simple-marketing-tips.html',
+            tasks: [
+                { text: 'Content pulled from WordPress draft', done: true },
+                { text: 'Interactive guide built', done: true },
+                { text: '[GAVIN] Deploy to site (WordPress page)', done: false },
+            ]
+        },
+        {
+            id: 'guide-email-segmenting',
+            name: 'Segmenting Your Email List',
+            desc: 'Guide on email list segmentation for youth soccer clubs',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build interactive guide', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-program-planning',
+            name: 'Program Planning Guide',
+            desc: 'Seven key steps for youth soccer program planning',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build interactive guide', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-following-up',
+            name: 'Following Up With Leads',
+            desc: 'Guide on lead follow-up for youth soccer programs',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build interactive guide', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-seo-basics',
+            name: 'SEO Basics for Youth Soccer',
+            desc: 'Search engine optimization fundamentals for clubs',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build interactive guide', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-registration-page',
+            name: 'Registration Page Optimization',
+            desc: 'How to optimize your registration page for conversions',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build interactive guide', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-marketing-smaller-clubs',
+            name: 'Marketing for Smaller Clubs',
+            desc: 'Marketing guide for smaller youth soccer programs',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build guide or article', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-website-solutions',
+            name: 'Best Website Solutions',
+            desc: 'Comparison of website options for youth soccer clubs',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build guide or article', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-social-media',
+            name: 'Social Media: 7 Steps',
+            desc: 'Social media strategy for youth soccer programs',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Pull content from WordPress draft', done: false },
+                { text: 'Build guide or article', done: false },
+                { text: 'Deploy to site', done: false },
+            ]
+        },
+        {
+            id: 'guide-blog-postgame-bundle',
+            name: 'Blog Ideas + Template',
+            desc: 'Blog post ideas and template - bundled with PostGame launch',
+            type: 'guide',
+            stage: 'planned',
+            path: 'website/',
+            tasks: [
+                { text: 'Combine blog ideas + template content', done: false },
+                { text: 'Build guide tied to PostGame', done: false },
+                { text: 'Deploy with PostGame launch', done: false },
+            ]
+        },
+    ];
+
+    const SEPARATE_PROJECTS = [
+        { name: 'Gameday Graphics', desc: 'Vite app. Domain graphicsforgameday.com registered + pointing to Vercel. Next: deploy landing page as separate Vercel project, point app.graphicsforgameday.com at existing app, hook up Stripe (Pro tier), maybe Supabase for accounts.', path: 'gameday-graphics/', live: 'https://gameday-graphics.vercel.app' },
+        {
+            name: 'Team Season',
+            desc: 'Sports journal app - React SPA, Supabase, Vercel. Photo book drop-ship via Lulu Print ($39/book, ~$11.50 margin)',
+            path: 'sports-journal/',
+            live: 'https://teamseason.app',
+            tasks: [
+                { text: 'Core journal app (entries, stats, share cards)', done: true },
+                { text: 'Book preview with pagination', done: true },
+                { text: 'Order flow UI (summary, shipping, review, checkout)', done: true },
+                { text: 'Supabase auth + cloud sync', done: true },
+                { text: 'Admin dashboard (teams, rosters, join links)', done: true },
+                { text: 'Lulu Print API client (api/lib/lulu.js)', done: true },
+                { text: 'Stripe checkout API ($39 + $5.99 shipping)', done: true },
+                { text: 'Stripe webhook handler (triggers PDF + Lulu order)', done: true },
+                { text: 'PDF generation API (Puppeteer, 8.5x11", sRGB, bleed)', done: true },
+                { text: 'Lulu order submission + webhook endpoints', done: true },
+                { text: 'Order status polling endpoint (maps Lulu statuses)', done: true },
+                { text: 'Vercel Blob storage for book data + PDFs', done: true },
+                { text: '.env.example with all required vars documented', done: true },
+                { text: '[GAVIN] Sign up at developers.lulu.com - get client_key + client_secret', done: false },
+                { text: '[GAVIN] Verify Lulu pod_package_id using their pricing calculator (default may be wrong)', done: false },
+                { text: '[GAVIN] Set up Stripe account - get secret key, create webhook (checkout.session.completed)', done: false },
+                { text: '[GAVIN] Create Vercel Blob Store (Dashboard > Storage)', done: false },
+                { text: '[GAVIN] Set up Resend - verify books@teamseason.app domain', done: false },
+                { text: '[GAVIN] Add all env vars to Vercel (see .env.example)', done: false },
+                { text: 'Build book template HTML files (public/book-template/cover.html + interior.html)', done: false },
+                { text: '[GAVIN] Test in Lulu sandbox before going live', done: false },
+                { text: 'Clean database setup (wipe + fresh schema)', done: false },
+                { text: 'End-to-end test: parent sign up through book order', done: false },
+            ]
+        },
+        { name: 'Fan Season', desc: 'Fan game journal - MLB, MLS, SPFL - React', path: '' },
+        { name: 'Unwritten', desc: 'Journaling app - early stage', path: '' },
+    ];
+
+    const INTERNAL_TOOLS = [
+        {
+            name: 'Copy Workflow',
+            desc: 'Draft copy in Google Docs, convert to HTML via Claude Code, push to WordPress',
+            path: 'internal/copy-workflow',
+            tasks: [
+                { text: 'GAS backend with create/read/list/writeRaw', done: true },
+                { text: 'Setup guide (YSM v5 branded)', done: true },
+                { text: 'Deploy to Apps Script', done: true },
+                { text: 'WordPress REST API integration', done: true },
+                { text: 'Full round-trip tested (create, edit, pull, push to WP)', done: true },
+            ]
+        },
+        {
+            name: 'Contact Form',
+            desc: 'Native YSM form system - GAS backend, Google Sheets, email notifications',
+            path: 'internal/contact-form',
+            tasks: [
+                { text: 'GAS script for submissions (contact-form.gs)', done: true },
+                { text: 'Reusable form embed component (ysm-form-embed.html)', done: true },
+                { text: 'Contact page on WordPress with form', done: true },
+                { text: 'Setup guide', done: true },
+                { text: '[GAVIN] Deploy GAS and connect to contact page (create Sheet, deploy Web App, replace CONTACT_FORM_GAS_URL)', done: false },
+            ]
+        },
+        {
+            name: 'Prospect Scraper',
+            desc: 'Python scraper for club director contact info',
+            path: 'internal/prospect-scraper',
+            tasks: [
+                { text: 'Config with six target associations', done: true },
+                { text: 'Two-pass scraper (associations + contacts)', done: true },
+                { text: 'HTML caching + polite delays', done: true },
+                { text: 'Test on one state association (Maine - done, 45 clubs found)', done: true },
+                { text: 'Generate first CSV of prospects (contact extraction needs hardening first)', done: false },
+            ]
+        },
+        {
+            name: 'YSM Website',
+            desc: 'youthsoccermarketing.com - WordPress + Astra child theme',
+            path: 'website/',
+            live: 'https://youthsoccermarketing.com',
+            tasks: [
+                { text: 'Homepage (v5 design)', done: true },
+                { text: 'Assessment page', done: true },
+                { text: 'Resource pages (calculator, website planning)', done: true },
+                { text: 'Give and Go landing page (/give-and-go/)', done: true },
+                { text: 'Contact page with native form (/contact/)', done: true },
+                { text: 'BB header/footer for Beaver Themer (site-wide)', done: true },
+                { text: '[GAVIN] Set up Beaver Themer header + footer layouts (needs WP admin + Beaver Themer plugin)', done: false },
+                { text: 'Redesign in progress - hold Lighthouse audit', done: false },
+            ]
+        },
+    ];
+
+    const SESSIONS = [
+        {
+            date: 'Feb 17, 2026',
+            notes: 'Night Shift #3: Team Season photo book drop-ship. Researched five print APIs - Lulu wins ($27.50/book, sRGB PDFs, full OpenAPI). Built nine API functions: Lulu client, Stripe checkout ($39), webhook handler, PDF generation (Puppeteer 8.5x11"), Lulu order submission + webhook, order status. Updated App.jsx pricing ($34.99 to $39, 7x7" softcover to 8.5x11" hardcover). Created .env.example. Removed old RPI stubs, replaced with Lulu. Seven [GAVIN] tasks remain (service signups + env vars). Full log: claude-night-log-teamseason-blurb.md'
+        },
+        {
+            date: 'Feb 17, 2026',
+            notes: 'Autonomous task processing (16 tasks). Completed: Team calc v5 branding verified, tryout evaluator polished (em dashes fixed), tournament scheduler Vite build scaffolded and tested, college roster SIDEARM scraper built (Python), prospect scraper tested on Maine. Documented all 12 human-blocked tasks with exact blockers. Contact page footer year fixed (2025 to 2026). Full task log: claude-master-task-log-2026-02-17.md'
+        },
+        {
+            date: 'Feb 16, 2026',
+            notes: 'WordPress pipeline live: Give and Go landing page pushed to /give-and-go/, Contact page rebuilt with native v5 form (no HubSpot). BB header/footer ready for Beaver Themer. Contact form GAS backend written. Copy Workflow fully tested (round-trip Google Docs to WP). Give and Go copy updated from Google Doc edits. Reusable form embed component built. Mobile responsive fixes (media queries, tap targets, iOS zoom prevention).'
+        },
+        {
+            date: 'Feb 15, 2026',
+            notes: 'Built copy workflow (GAS + setup guide), prospect scraper (Python), outreach dashboard + demo for Club Lead Tracker. Applied YSM v5 branding to all new files. Reorganized all files into YSM folder structure. Rebuilt project board as stage-based pipeline.'
+        }
+    ];
+
+    // ===================== STATE =====================
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return defaultState();
+            const s = JSON.parse(raw);
+            // Migrate from old flat task-toggle format
+            if (!s.stages && !s.ideas) return migrateState(s);
+            return s;
+        } catch { return defaultState(); }
+    }
+
+    function defaultState() {
+        const stages = {};
+        const order = {};
+        DEFAULT_PRODUCTS.forEach((p, i) => {
+            stages[p.id] = p.stage;
+            if (!order[p.stage]) order[p.stage] = [];
+            order[p.stage].push(p.id);
+        });
+        return {
+            tasks: {},
+            stages: stages,
+            order: order,
+            notes: {},
+            goals: { daily: '', weekly: '', monthly: '' },
+            goalsDone: { daily: false, weekly: false, monthly: false },
+            schedule: [
+                { weekOf: 'Feb 17, 2026', productId: '' },
+                { weekOf: 'Feb 24, 2026', productId: '' },
+                { weekOf: 'Mar 3, 2026', productId: '' },
+                { weekOf: 'Mar 10, 2026', productId: '' },
+            ],
+            ideas: [],
+            collapsed: {}
+        };
+    }
+
+    function migrateState(old) {
+        // Old format was { "ProductName:task text": true/false }
+        const s = defaultState();
+        Object.keys(old).forEach(k => {
+            s.tasks[k] = old[k];
+        });
+        return s;
+    }
+
+    function saveState(state) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    // ===================== HELPERS =====================
+    function esc(str) {
+        const d = document.createElement('div');
+        d.textContent = str || '';
+        return d.innerHTML;
+    }
+
+    function getProductById(id) {
+        return DEFAULT_PRODUCTS.find(p => p.id === id);
+    }
+
+    function getTaskDone(state, productName, taskText) {
+        const key = productName + ':' + taskText;
+        if (state.tasks[key] !== undefined) return state.tasks[key];
+        return null; // caller checks default
+    }
+
+    function isTaskDone(state, product, task) {
+        const val = getTaskDone(state, product.name, task.text);
+        return val !== null ? val : task.done;
+    }
+
+    function getAllPipelineProducts(state) {
+        // Returns products in correct order per stage
+        const result = {};
+        STAGES.forEach(s => result[s] = []);
+
+        // First place all known products
+        DEFAULT_PRODUCTS.forEach(p => {
+            const stage = state.stages[p.id] || p.stage;
+            if (!result[stage]) result[stage] = [];
+        });
+
+        // Use order arrays if available
+        STAGES.forEach(stage => {
+            const ordered = (state.order[stage] || []).filter(id => {
+                const p = getProductById(id);
+                return p && (state.stages[id] || p.stage) === stage;
+            });
+            // Add any products in this stage not in the order array
+            DEFAULT_PRODUCTS.forEach(p => {
+                const pStage = state.stages[p.id] || p.stage;
+                if (pStage === stage && !ordered.includes(p.id)) {
+                    ordered.push(p.id);
+                }
+            });
+            result[stage] = ordered;
+        });
+
+        // Add ideas
+        result.ideas = [...(state.ideas || []), ...result.ideas];
+
+        return result;
+    }
+
+    // ===================== RENDER =====================
+    function render() {
+        const state = loadState();
+
+        // Last updated
+        document.getElementById('lastUpdated').textContent = 'Last updated: ' + LAST_UPDATED;
+
+        renderGoals(state);
+        renderSummary(state);
+        renderPipeline(state);
+        renderSchedule(state);
+        renderSeparate();
+        renderInternal(state);
+        renderSessions();
+
+        // Restore collapse states
+        ['separateSection', 'internalSection'].forEach(id => {
+            if (state.collapsed[id]) {
+                document.getElementById(id).classList.add('collapsed');
+            }
+        });
+    }
+
+    function renderGoals(state) {
+        const goals = state.goals || {};
+        const done = state.goalsDone || {};
+        const types = [
+            { key: 'daily', label: 'DAILY GOAL', placeholder: 'What are you finishing today?' },
+            { key: 'weekly', label: 'WEEKLY GOAL', placeholder: 'What ships this week?' },
+            { key: 'monthly', label: 'MONTHLY GOAL', placeholder: 'What is the big picture this month?' },
+        ];
+        document.getElementById('goalsRow').innerHTML = types.map(t => {
+            const isDone = done[t.key];
+            return '<div class="goal-card' + (isDone ? ' goal-done' : '') + '">' +
+                '<div class="goal-label">' + t.label + '</div>' +
+                '<div class="goal-text" contenteditable="true" data-goal="' + t.key + '" ' +
+                    'data-placeholder="' + t.placeholder + '">' + esc(goals[t.key] || '') + '</div>' +
+                '<div class="goal-actions">' +
+                    '<button class="goal-btn" data-goal-done="' + t.key + '">' + (isDone ? 'Reset' : 'Done') + '</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function renderSummary(state) {
+        const stageMap = getAllPipelineProducts(state);
+        const launchedCount = stageMap.launched.filter(id => typeof id === 'string' && getProductById(id)).length;
+        const buildingCount = stageMap.building.filter(id => typeof id === 'string').length;
+        const nextName = stageMap.next.length > 0 ? (getProductById(stageMap.next[0]) || {}).name || stageMap.next[0] : 'None yet';
+
+        let totalTasks = 0, doneTasks = 0;
+        DEFAULT_PRODUCTS.forEach(p => {
+            p.tasks.forEach(t => {
+                totalTasks++;
+                if (isTaskDone(state, p, t)) doneTasks++;
+            });
+        });
+
+        const pct = totalTasks > 0 ? Math.round(doneTasks / totalTasks * 100) : 0;
+
+        document.getElementById('summary').innerHTML =
+            '<div class="summary-stat"><div class="label">Launched</div><div class="value green">' + launchedCount + '</div></div>' +
+            '<div class="summary-stat"><div class="label">Building</div><div class="value gold">' + buildingCount + '</div></div>' +
+            '<div class="summary-stat"><div class="label">Next Up</div><div class="value teal" style="font-size:18px">' + esc(nextName) + '</div></div>' +
+            '<div class="summary-stat"><div class="label">Tasks Done</div><div class="value gold">' + doneTasks + '/' + totalTasks + '</div>' +
+                '<div class="sub">' + pct + '% complete</div></div>';
+    }
+
+    function renderPipeline(state) {
+        const stageMap = getAllPipelineProducts(state);
+        const pipeline = document.getElementById('pipeline');
+
+        pipeline.innerHTML = STAGES.map((stage, stageIdx) => {
+            const items = stageMap[stage] || [];
+            // Filter: ideas that are strings (user-added) vs product IDs
+            const productItems = items.filter(id => typeof id === 'string' && getProductById(id));
+            const ideaItems = stage === 'ideas' ? items.filter(id => typeof id === 'object' || !getProductById(id)) : [];
+            // For ideas column, also include idea objects from state.ideas
+            const allIdeas = stage === 'ideas' ? (state.ideas || []) : [];
+
+            const count = stage === 'ideas' ? allIdeas.length + productItems.length : productItems.length;
+
+            let cardsHtml = '';
+
+            // Render product cards
+            productItems.forEach((id, idx) => {
+                const p = getProductById(id);
+                if (!p) return;
+                cardsHtml += renderPipelineCard(p, state, stage, stageIdx, idx, productItems.length);
+            });
+
+            // Render idea cards (only in ideas column)
+            if (stage === 'ideas') {
+                allIdeas.forEach((idea, idx) => {
+                    cardsHtml += '<div class="p-card">' +
+                        '<div class="p-card-name">' + esc(typeof idea === 'string' ? idea : idea.name) + '</div>' +
+                        '<div class="p-card-actions">' +
+                            '<button class="p-card-move" data-idea-delete="' + idx + '" title="Remove">&#10005;</button>' +
+                            '<span></span>' +
+                            '<button class="p-card-move" data-idea-promote="' + idx + '" title="Move to Planned">&#9654;</button>' +
+                        '</div>' +
+                    '</div>';
+                });
+            }
+
+            const ideaInput = stage === 'ideas' ? '<div class="idea-input-wrap"><input class="idea-input" placeholder="Add an idea..." id="ideaInput"></div>' : '';
+
+            return '<div class="pipeline-col" data-stage="' + stage + '">' +
+                '<div class="pipeline-col-header">' +
+                    '<span class="pipeline-col-title">' + STAGE_LABELS[stage] + '</span>' +
+                    '<span class="pipeline-col-count">' + count + '</span>' +
+                '</div>' +
+                '<div class="pipeline-col-body">' + cardsHtml + '</div>' +
+                ideaInput +
+            '</div>';
+        }).join('');
+    }
+
+    function renderPipelineCard(product, state, stage, stageIdx, posIdx, totalInStage) {
+        const p = product;
+        let done = 0, total = p.tasks.length;
+        p.tasks.forEach(t => { if (isTaskDone(state, p, t)) done++; });
+        const pct = total > 0 ? Math.round(done / total * 100) : 100;
+        const notes = state.notes[p.id] || '';
+
+        const canMoveLeft = stageIdx > 0;
+        const canMoveRight = stageIdx < STAGES.length - 1;
+
+        const tasksHtml = p.tasks.map(t => {
+            const isDone = isTaskDone(state, p, t);
+            const key = p.name + ':' + t.text;
+            return '<div class="task-item">' +
+                '<div class="task-check ' + (isDone ? 'done' : '') + '" data-key="' + esc(key) + '"></div>' +
+                '<span class="task-text ' + (isDone ? 'done' : '') + '">' + esc(t.text) + '</span>' +
+            '</div>';
+        }).join('');
+
+        return '<div class="p-card" data-product-id="' + p.id + '">' +
+            '<div class="p-card-name">' + esc(p.name) + '</div>' +
+            (p.path ? '<div class="p-card-path">YSM: ' + esc(p.path) + '</div>' : '') +
+            '<div class="p-card-desc">' + esc(p.desc) + '</div>' +
+            (total > 0 ? '<div class="p-card-progress">' +
+                '<div class="p-card-bar"><div class="p-card-bar-fill" style="width:' + pct + '%"></div></div>' +
+                '<span class="p-card-pct">' + done + '/' + total + '</span>' +
+            '</div>' : '') +
+            (notes ? '<div class="p-card-notes">' + esc(notes) + '</div>' : '') +
+            '<div class="p-card-actions">' +
+                '<button class="p-card-move" data-move-left="' + p.id + '"' + (!canMoveLeft ? ' disabled' : '') + ' title="Move to ' + (canMoveLeft ? STAGE_LABELS[STAGES[stageIdx - 1]] : '') + '">&#9664;</button>' +
+                '<div style="display:flex;gap:4px;align-items:center">' +
+                    '<button class="p-card-expand" data-expand="' + p.id + '">' + total + ' tasks</button>' +
+                    '<button class="p-card-expand" data-edit-notes="' + p.id + '" title="Edit notes" style="margin-left:4px">notes</button>' +
+                    (posIdx > 0 ? '<button class="p-card-order-btn" data-order-up="' + p.id + '" title="Move up">&#9650;</button>' : '') +
+                    (posIdx < totalInStage - 1 ? '<button class="p-card-order-btn" data-order-down="' + p.id + '" title="Move down">&#9660;</button>' : '') +
+                '</div>' +
+                '<button class="p-card-move" data-move-right="' + p.id + '"' + (!canMoveRight ? ' disabled' : '') + ' title="Move to ' + (canMoveRight ? STAGE_LABELS[STAGES[stageIdx + 1]] : '') + '">&#9654;</button>' +
+            '</div>' +
+            '<div class="p-card-tasks">' + tasksHtml + '</div>' +
+        '</div>';
+    }
+
+    function renderSchedule(state) {
+        const schedule = state.schedule || [];
+        const productOptions = DEFAULT_PRODUCTS.map(p =>
+            '<option value="' + p.id + '">' + esc(p.name) + '</option>'
+        ).join('');
+
+        let html = '<table class="schedule-table"><thead><tr><th>WEEK OF</th><th>TARGET LAUNCH</th></tr></thead><tbody>';
+        schedule.forEach((s, i) => {
+            html += '<tr>' +
+                '<td class="schedule-week">' + esc(s.weekOf) + '</td>' +
+                '<td class="schedule-product">' +
+                    '<select data-schedule-idx="' + i + '">' +
+                        '<option value="">- Select -</option>' +
+                        productOptions +
+                    '</select>' +
+                '</td>' +
+            '</tr>';
+        });
+        html += '</tbody></table>';
+        html += '<button class="schedule-add" id="addScheduleWeek">+ Add week</button>';
+
+        document.getElementById('schedule').innerHTML = html;
+
+        // Set selected values
+        schedule.forEach((s, i) => {
+            const sel = document.querySelector('[data-schedule-idx="' + i + '"]');
+            if (sel && s.productId) sel.value = s.productId;
+        });
+    }
+
+    function renderSeparate() {
+        const state = loadState();
+        document.getElementById('separateGrid').innerHTML = SEPARATE_PROJECTS.map(p => {
+            const hasTasks = p.tasks && p.tasks.length > 0;
+            let done = 0, total = (p.tasks || []).length;
+            (p.tasks || []).forEach(t => {
+                const key = p.name + ':' + t.text;
+                const val = state.tasks[key];
+                if (val !== undefined ? val : t.done) done++;
+            });
+            const tasksHtml = (p.tasks || []).map(t => {
+                const key = p.name + ':' + t.text;
+                const isDone = state.tasks[key] !== undefined ? state.tasks[key] : t.done;
+                return '<div class="task-item">' +
+                    '<div class="task-check ' + (isDone ? 'done' : '') + '" data-key="' + esc(key) + '"></div>' +
+                    '<span class="task-text ' + (isDone ? 'done' : '') + '">' + esc(t.text) + '</span>' +
+                '</div>';
+            }).join('');
+
+            return '<div class="simple-card">' +
+                '<div class="simple-card-name">' + esc(p.name) + '</div>' +
+                '<div class="simple-card-desc">' + esc(p.desc) + '</div>' +
+                (hasTasks ? '<div class="p-card-progress" style="margin-top:8px">' +
+                    '<div class="p-card-bar"><div class="p-card-bar-fill" style="width:' + (total > 0 ? Math.round(done/total*100) : 0) + '%"></div></div>' +
+                    '<span class="p-card-pct">' + done + '/' + total + '</span>' +
+                '</div>' : '') +
+                (hasTasks ? '<div style="margin-top:8px">' + tasksHtml + '</div>' : '') +
+                '<div class="simple-card-meta" style="margin-top:6px">' + esc(p.path) +
+                    (p.live ? ' - <a href="' + esc(p.live) + '" target="_blank" style="color:var(--teal)">' + esc(p.live) + '</a>' : '') +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function renderInternal(state) {
+        document.getElementById('internalGrid').innerHTML = INTERNAL_TOOLS.map(p => {
+            let done = 0, total = (p.tasks || []).length;
+            (p.tasks || []).forEach(t => {
+                const key = p.name + ':' + t.text;
+                const val = state.tasks[key];
+                if (val !== undefined ? val : t.done) done++;
+            });
+            const tasksHtml = (p.tasks || []).map(t => {
+                const key = p.name + ':' + t.text;
+                const isDone = state.tasks[key] !== undefined ? state.tasks[key] : t.done;
+                return '<div class="task-item">' +
+                    '<div class="task-check ' + (isDone ? 'done' : '') + '" data-key="' + esc(key) + '"></div>' +
+                    '<span class="task-text ' + (isDone ? 'done' : '') + '">' + esc(t.text) + '</span>' +
+                '</div>';
+            }).join('');
+
+            return '<div class="simple-card">' +
+                '<div class="simple-card-name">' + esc(p.name) + '</div>' +
+                '<div class="simple-card-desc">' + esc(p.desc) + '</div>' +
+                (total > 0 ? '<div class="p-card-progress" style="margin-top:8px">' +
+                    '<div class="p-card-bar"><div class="p-card-bar-fill" style="width:' + (total > 0 ? Math.round(done/total*100) : 0) + '%"></div></div>' +
+                    '<span class="p-card-pct">' + done + '/' + total + '</span>' +
+                '</div>' : '') +
+                '<div style="margin-top:8px">' + tasksHtml + '</div>' +
+                '<div class="simple-card-meta" style="margin-top:8px">' + esc(p.path) + '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function renderSessions() {
+        document.getElementById('sessionLog').innerHTML = SESSIONS.map(s =>
+            '<div class="session-entry">' +
+                '<span class="session-date">' + s.date + '</span>' +
+                '<span class="session-notes">' + esc(s.notes) + '</span>' +
+            '</div>'
+        ).join('');
+    }
+
+    // ===================== EVENTS =====================
+    document.addEventListener('click', (e) => {
+        const state = loadState();
+
+        // Task toggle
+        const check = e.target.closest('.task-check');
+        if (check) {
+            const key = check.dataset.key;
+            const isDone = check.classList.contains('done');
+            state.tasks[key] = !isDone;
+            saveState(state);
+            render();
+            return;
+        }
+
+        // Move left
+        const moveLeft = e.target.closest('[data-move-left]');
+        if (moveLeft && !moveLeft.disabled) {
+            const id = moveLeft.dataset.moveLeft;
+            const currentStage = state.stages[id] || getProductById(id).stage;
+            const idx = STAGES.indexOf(currentStage);
+            if (idx > 0) {
+                const newStage = STAGES[idx - 1];
+                // Remove from old order
+                if (state.order[currentStage]) {
+                    state.order[currentStage] = state.order[currentStage].filter(x => x !== id);
+                }
+                // Add to new order
+                if (!state.order[newStage]) state.order[newStage] = [];
+                state.order[newStage].push(id);
+                state.stages[id] = newStage;
+                saveState(state);
+                render();
+            }
+            return;
+        }
+
+        // Move right
+        const moveRight = e.target.closest('[data-move-right]');
+        if (moveRight && !moveRight.disabled) {
+            const id = moveRight.dataset.moveRight;
+            const currentStage = state.stages[id] || getProductById(id).stage;
+            const idx = STAGES.indexOf(currentStage);
+            if (idx < STAGES.length - 1) {
+                const newStage = STAGES[idx + 1];
+                if (state.order[currentStage]) {
+                    state.order[currentStage] = state.order[currentStage].filter(x => x !== id);
+                }
+                if (!state.order[newStage]) state.order[newStage] = [];
+                state.order[newStage].push(id);
+                state.stages[id] = newStage;
+                saveState(state);
+                render();
+            }
+            return;
+        }
+
+        // Expand tasks
+        const expand = e.target.closest('[data-expand]');
+        if (expand) {
+            const card = expand.closest('.p-card');
+            if (card) card.classList.toggle('expanded');
+            return;
+        }
+
+        // Edit notes
+        const editNotes = e.target.closest('[data-edit-notes]');
+        if (editNotes) {
+            const id = editNotes.dataset.editNotes;
+            const card = editNotes.closest('.p-card');
+            if (!card) return;
+            // Check if already editing
+            if (card.querySelector('.p-card-notes-input')) return;
+            const existing = state.notes[id] || '';
+            const textarea = document.createElement('textarea');
+            textarea.className = 'p-card-notes-input';
+            textarea.value = existing;
+            textarea.placeholder = 'Add notes...';
+            // Insert before actions
+            const actions = card.querySelector('.p-card-actions');
+            card.insertBefore(textarea, actions);
+            textarea.focus();
+            textarea.addEventListener('blur', () => {
+                const s = loadState();
+                s.notes[id] = textarea.value.trim();
+                saveState(s);
+                render();
+            });
+            return;
+        }
+
+        // Order up
+        const orderUp = e.target.closest('[data-order-up]');
+        if (orderUp) {
+            const id = orderUp.dataset.orderUp;
+            const stage = state.stages[id] || getProductById(id).stage;
+            const arr = state.order[stage] || [];
+            const pos = arr.indexOf(id);
+            if (pos > 0) {
+                [arr[pos - 1], arr[pos]] = [arr[pos], arr[pos - 1]];
+                state.order[stage] = arr;
+                saveState(state);
+                render();
+            }
+            return;
+        }
+
+        // Order down
+        const orderDown = e.target.closest('[data-order-down]');
+        if (orderDown) {
+            const id = orderDown.dataset.orderDown;
+            const stage = state.stages[id] || getProductById(id).stage;
+            const arr = state.order[stage] || [];
+            const pos = arr.indexOf(id);
+            if (pos < arr.length - 1) {
+                [arr[pos], arr[pos + 1]] = [arr[pos + 1], arr[pos]];
+                state.order[stage] = arr;
+                saveState(state);
+                render();
+            }
+            return;
+        }
+
+        // Idea delete
+        const ideaDel = e.target.closest('[data-idea-delete]');
+        if (ideaDel) {
+            const idx = parseInt(ideaDel.dataset.ideaDelete);
+            state.ideas.splice(idx, 1);
+            saveState(state);
+            render();
+            return;
+        }
+
+        // Idea promote to planned
+        const ideaPromote = e.target.closest('[data-idea-promote]');
+        if (ideaPromote) {
+            const idx = parseInt(ideaPromote.dataset.ideaPromote);
+            // Ideas are just strings, can't become full products in the pipeline
+            // They stay as notes - for now just remove from ideas
+            // In future could create a new product
+            const idea = state.ideas[idx];
+            state.ideas.splice(idx, 1);
+            // Add as a note to planned - just remove for now
+            saveState(state);
+            render();
+            return;
+        }
+
+        // Goal done toggle
+        const goalDone = e.target.closest('[data-goal-done]');
+        if (goalDone) {
+            const key = goalDone.dataset.goalDone;
+            if (!state.goalsDone) state.goalsDone = {};
+            if (state.goalsDone[key]) {
+                // Reset - clear the goal
+                state.goalsDone[key] = false;
+                state.goals[key] = '';
+            } else {
+                state.goalsDone[key] = true;
+            }
+            saveState(state);
+            render();
+            return;
+        }
+
+        // Add schedule week
+        if (e.target.id === 'addScheduleWeek') {
+            const last = state.schedule[state.schedule.length - 1];
+            if (last) {
+                // Parse last date and add 7 days
+                const d = new Date(last.weekOf);
+                d.setDate(d.getDate() + 7);
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const newWeek = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+                state.schedule.push({ weekOf: newWeek, productId: '' });
+            } else {
+                state.schedule.push({ weekOf: 'Feb 17, 2026', productId: '' });
+            }
+            saveState(state);
+            render();
+            return;
+        }
+    });
+
+    // Goal text editing
+    document.addEventListener('blur', (e) => {
+        if (e.target.dataset && e.target.dataset.goal) {
+            const state = loadState();
+            if (!state.goals) state.goals = {};
+            state.goals[e.target.dataset.goal] = e.target.textContent.trim();
+            saveState(state);
+        }
+    }, true);
+
+    // Idea input
+    document.addEventListener('keydown', (e) => {
+        if (e.target.id === 'ideaInput' && e.key === 'Enter') {
+            e.preventDefault();
+            const val = e.target.value.trim();
+            if (!val) return;
+            const state = loadState();
+            if (!state.ideas) state.ideas = [];
+            state.ideas.push(val);
+            saveState(state);
+            render();
+        }
+    });
+
+    // Schedule select
+    document.addEventListener('change', (e) => {
+        if (e.target.dataset && e.target.dataset.scheduleIdx !== undefined) {
+            const state = loadState();
+            const idx = parseInt(e.target.dataset.scheduleIdx);
+            if (state.schedule[idx]) {
+                state.schedule[idx].productId = e.target.value;
+                saveState(state);
+            }
+        }
+    });
+
+    // Collapse toggle
+    function toggleCollapse(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle('collapsed');
+        const state = loadState();
+        if (!state.collapsed) state.collapsed = {};
+        state.collapsed[id] = el.classList.contains('collapsed');
+        saveState(state);
+    }
+
+    // ===================== VIEW TOGGLE =====================
+    let currentView = 'pipeline';
+    let taskListFilter = 'all';
+
+    document.addEventListener('click', function(e) {
+        const viewBtn = e.target.closest('[data-view]');
+        if (viewBtn) {
+            currentView = viewBtn.dataset.view;
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === currentView));
+            document.getElementById('pipeline').style.display = currentView === 'pipeline' ? '' : 'none';
+            document.getElementById('taskListView').style.display = currentView === 'tasklist' ? '' : 'none';
+            if (currentView === 'tasklist') renderTaskList(loadState());
+            return;
+        }
+        const filterBtn = e.target.closest('.tl-filter-btn');
+        if (filterBtn) {
+            taskListFilter = filterBtn.dataset.filter;
+            document.querySelectorAll('.tl-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === taskListFilter));
+            renderTaskList(loadState());
+            return;
+        }
+        const copyBtn = e.target.closest('.tl-copy-btn');
+        if (copyBtn) {
+            copyTaskList();
+            return;
+        }
+    });
+
+    function renderTaskList(state) {
+        const el = document.getElementById('taskListView');
+        let rows = [];
+
+        // Collect all tasks from pipeline products
+        DEFAULT_PRODUCTS.forEach(p => {
+            const stage = state.stages[p.id] || p.stage;
+            p.tasks.forEach(t => {
+                const isDone = isTaskDone(state, p, t);
+                rows.push({
+                    product: p.name,
+                    path: p.path || '',
+                    task: t.text,
+                    stage: stage,
+                    done: isDone,
+                    key: p.name + ':' + t.text
+                });
+            });
+        });
+
+        // Separate projects (with tasks)
+        SEPARATE_PROJECTS.forEach(p => {
+            (p.tasks || []).forEach(t => {
+                const key = p.name + ':' + t.text;
+                const isDone = state.tasks[key] !== undefined ? state.tasks[key] : t.done;
+                rows.push({
+                    product: p.name,
+                    path: p.path || '',
+                    task: t.text,
+                    stage: 'standalone',
+                    done: isDone,
+                    key: key
+                });
+            });
+        });
+
+        // Internal tools
+        INTERNAL_TOOLS.forEach(p => {
+            (p.tasks || []).forEach(t => {
+                const key = p.name + ':' + t.text;
+                const isDone = state.tasks[key] !== undefined ? state.tasks[key] : t.done;
+                rows.push({
+                    product: p.name,
+                    path: p.path || '',
+                    task: t.text,
+                    stage: 'internal',
+                    done: isDone,
+                    key: key
+                });
+            });
+        });
+
+        // Count before filtering (for button labels)
+        const gavinCount = rows.filter(r => r.task.startsWith('[GAVIN]') && !r.done).length;
+        const todoCount = rows.filter(r => !r.done).length;
+        const doneCount = rows.filter(r => r.done).length;
+        const totalAll = rows.length;
+
+        // Filter
+        if (taskListFilter === 'todo') rows = rows.filter(r => !r.done);
+        else if (taskListFilter === 'done') rows = rows.filter(r => r.done);
+        else if (taskListFilter === 'gavin') rows = rows.filter(r => r.task.startsWith('[GAVIN]') && !r.done);
+
+        let html = '<div class="task-list-controls">' +
+            '<button class="tl-filter-btn' + (taskListFilter === 'all' ? ' active' : '') + '" data-filter="all">All (' + totalAll + ')</button>' +
+            '<button class="tl-filter-btn' + (taskListFilter === 'todo' ? ' active' : '') + '" data-filter="todo">To Do (' + todoCount + ')</button>' +
+            '<button class="tl-filter-btn' + (taskListFilter === 'done' ? ' active' : '') + '" data-filter="done">Done (' + doneCount + ')</button>' +
+            '<button class="tl-filter-btn gavin-btn' + (taskListFilter === 'gavin' ? ' active' : '') + '" data-filter="gavin">Gavin (' + gavinCount + ')</button>' +
+            '<button class="tl-copy-btn">COPY AS TEXT</button>' +
+            '</div>';
+
+        html += '<table class="task-list-table"><thead><tr>' +
+            '<th>STATUS</th><th>PRODUCT</th><th>TASK</th><th>STAGE</th>' +
+            '</tr></thead><tbody>';
+
+        rows.forEach(r => {
+            const isGavin = r.task.startsWith('[GAVIN]');
+            const displayTask = isGavin ? r.task.replace('[GAVIN] ', '') : r.task;
+            html += '<tr' + (isGavin && !r.done ? ' style="background:rgba(200,150,62,0.06)"' : '') + '>' +
+                '<td><div class="task-check ' + (r.done ? 'done' : '') + '" data-key="' + esc(r.key) + '" style="cursor:pointer"></div></td>' +
+                '<td><div class="tl-product">' + esc(r.product) + '</div><div class="tl-path">' + esc(r.path) + '</div></td>' +
+                '<td class="tl-task ' + (r.done ? 'done' : '') + '">' +
+                    (isGavin && !r.done ? '<span class="tl-gavin-tag">GAVIN</span> ' : '') +
+                    esc(displayTask) + '</td>' +
+                '<td><span class="tl-stage ' + r.stage + '">' + esc(STAGE_LABELS[r.stage] || r.stage) + '</span></td>' +
+                '</tr>';
+        });
+
+        html += '</tbody></table>';
+        el.innerHTML = html;
+    }
+
+    function copyTaskList() {
+        const state = loadState();
+        let lines = [];
+        let lastProduct = '';
+
+        DEFAULT_PRODUCTS.forEach(p => {
+            const stage = state.stages[p.id] || p.stage;
+            p.tasks.forEach(t => {
+                const isDone = isTaskDone(state, p, t);
+                if (taskListFilter === 'todo' && isDone) return;
+                if (taskListFilter === 'done' && !isDone) return;
+                if (p.name !== lastProduct) {
+                    if (lastProduct) lines.push('');
+                    lines.push(p.name + ' [' + (STAGE_LABELS[stage] || stage) + '] - YSM: ' + (p.path || ''));
+                    lastProduct = p.name;
+                }
+                lines.push('  ' + (isDone ? '[x] ' : '[ ] ') + t.text);
+            });
+        });
+
+        SEPARATE_PROJECTS.forEach(p => {
+            (p.tasks || []).forEach(t => {
+                const key = p.name + ':' + t.text;
+                const isDone = state.tasks[key] !== undefined ? state.tasks[key] : t.done;
+                if (taskListFilter === 'todo' && isDone) return;
+                if (taskListFilter === 'done' && !isDone) return;
+                if (p.name !== lastProduct) {
+                    if (lastProduct) lines.push('');
+                    lines.push(p.name + ' [Standalone] - ' + (p.path || ''));
+                    lastProduct = p.name;
+                }
+                lines.push('  ' + (isDone ? '[x] ' : '[ ] ') + t.text);
+            });
+        });
+
+        INTERNAL_TOOLS.forEach(p => {
+            (p.tasks || []).forEach(t => {
+                const key = p.name + ':' + t.text;
+                const isDone = state.tasks[key] !== undefined ? state.tasks[key] : t.done;
+                if (taskListFilter === 'todo' && isDone) return;
+                if (taskListFilter === 'done' && !isDone) return;
+                if (p.name !== lastProduct) {
+                    if (lastProduct) lines.push('');
+                    lines.push(p.name + ' [Internal] - YSM: ' + (p.path || ''));
+                    lastProduct = p.name;
+                }
+                lines.push('  ' + (isDone ? '[x] ' : '[ ] ') + t.text);
+            });
+        });
+
+        const text = lines.join('\n');
+        navigator.clipboard.writeText(text).then(function() {
+            const btn = document.querySelector('.tl-copy-btn');
+            btn.textContent = 'COPIED';
+            setTimeout(function() { btn.textContent = 'COPY AS TEXT'; }, 1500);
+        });
+    }
+
+    // ===================== INIT =====================
+    render();
+    </script>
+</body>
+</html>
