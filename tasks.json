@@ -1,4 +1,17 @@
 {
-  "tasks": [],
-  "lastUpdated": "2026-02-18"
+  "tasks": [
+    {
+      "id": "t-1708300800000",
+      "title": "Set up GitHub PAT for tracker task sync",
+      "description": "1. Go to GitHub > Settings > Developer Settings > Personal Access Tokens > Fine-grained\n2. Create token scoped to gavinhmacphee/ysm-tracker with Contents read/write\n3. Build link: https://ysm-tracker.vercel.app?token=github_pat_YOUR_TOKEN\n4. Text it to yourself, open once on phone\n5. Token saves automatically, URL cleans itself up\n6. Test by adding a task from phone and checking the repo",
+      "priority": "high",
+      "project": "general",
+      "status": "queued",
+      "createdAt": "Feb 18, 2026",
+      "updatedAt": "Feb 18, 2026",
+      "completedAt": null,
+      "notes": ""
+    }
+  ],
+  "lastUpdated": "Feb 18, 2026"
 }
