@@ -747,6 +747,321 @@
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { transition: none !important; }
         }
+
+        /* ═══ DEV TASKS ═══ */
+        .dev-tasks {
+            margin-bottom: 28px;
+        }
+        .dev-tasks-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gold);
+        }
+        .dev-tasks-header .section-label {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .dev-tasks-count {
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--teal);
+            color: white;
+            min-width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 6px;
+        }
+        .dev-tasks-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .dev-tasks-add-btn {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            padding: 5px 12px;
+            background: var(--gold);
+            color: var(--teal-deep);
+            border: none;
+            cursor: pointer;
+        }
+        .dev-tasks-add-btn:hover { background: var(--gold-light); }
+        .dev-tasks-settings-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--ink-muted);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .dev-tasks-settings-btn:hover { border-color: var(--teal); color: var(--teal); }
+        .dev-tasks-sync-status {
+            font-size: 11px;
+            color: var(--ink-muted);
+        }
+        .dev-tasks-sync-status.synced { color: #16a34a; }
+        .dev-tasks-sync-status.error { color: #dc2626; }
+
+        /* Token modal */
+        .dt-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .dt-modal {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 24px;
+            max-width: 440px;
+            width: 90%;
+        }
+        .dt-modal h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.04em;
+            margin-bottom: 8px;
+        }
+        .dt-modal p {
+            font-size: 13px;
+            color: var(--ink-secondary);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .dt-modal input[type="password"],
+        .dt-modal input[type="text"] {
+            width: 100%;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .dt-modal input:focus { border-color: var(--teal); }
+        .dt-modal-btns {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .dt-modal-btn {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--ink);
+            cursor: pointer;
+        }
+        .dt-modal-btn:hover { border-color: var(--teal); }
+        .dt-modal-btn.primary {
+            background: var(--teal);
+            color: white;
+            border-color: var(--teal);
+        }
+        .dt-modal-btn.primary:hover { background: var(--teal-dark); }
+        .dt-modal-btn.danger {
+            color: #dc2626;
+            border-color: #dc2626;
+        }
+        .dt-modal-btn.danger:hover { background: #fef2f2; }
+
+        /* No-token banner */
+        .dt-no-token {
+            font-size: 12px;
+            color: #92400e;
+            background: #fef3c7;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--gold);
+        }
+
+        /* Filter bar */
+        .dev-tasks-filters {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .dt-filter-btn {
+            font-size: 12px;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--ink-muted);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .dt-filter-btn.active { background: var(--teal); color: white; border-color: var(--teal); }
+        .dt-filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+
+        /* Inline form */
+        .dev-task-form {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 16px;
+            margin-bottom: 12px;
+            display: none;
+        }
+        .dev-task-form.visible { display: block; }
+        .dev-task-form label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink-muted);
+            display: block;
+            margin-bottom: 4px;
+            margin-top: 10px;
+        }
+        .dev-task-form label:first-child { margin-top: 0; }
+        .dev-task-form input[type="text"],
+        .dev-task-form textarea,
+        .dev-task-form select {
+            width: 100%;
+            font-family: inherit;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            padding: 6px 8px;
+            outline: none;
+            background: white;
+            color: var(--ink);
+        }
+        .dev-task-form textarea { min-height: 60px; resize: vertical; }
+        .dev-task-form input:focus,
+        .dev-task-form textarea:focus,
+        .dev-task-form select:focus { border-color: var(--teal); }
+        .dev-task-form-row {
+            display: flex;
+            gap: 12px;
+        }
+        .dev-task-form-row > div { flex: 1; }
+        .dev-task-form-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        /* Task card */
+        .dev-task-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--ink-muted);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .dev-task-card.priority-high { border-left-color: #dc2626; }
+        .dev-task-card.priority-medium { border-left-color: var(--gold); }
+        .dev-task-card.priority-low { border-left-color: var(--teal); }
+        .dev-task-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+        .dev-task-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .dev-task-card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.03em;
+            color: var(--ink);
+            flex: 1;
+        }
+        .dev-task-card-desc {
+            font-size: 12px;
+            color: var(--ink-muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+        .dev-task-card-meta {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Badges */
+        .dt-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 6px;
+            display: inline-block;
+        }
+        .dt-status-queued { background: #f3f4f6; color: var(--ink-muted); }
+        .dt-status-in-progress { background: #dbeafe; color: #2563eb; }
+        .dt-status-done { background: #dcfce7; color: #16a34a; }
+        .dt-status-blocked { background: #fef2f2; color: #dc2626; }
+        .dt-priority-high { background: #fef2f2; color: #dc2626; }
+        .dt-priority-medium { background: #fef3c7; color: #92400e; }
+        .dt-priority-low { background: rgba(43,106,101,0.1); color: var(--teal); }
+        .dt-project-tag {
+            font-size: 10px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            color: var(--ink-muted);
+            background: var(--cream-warm);
+            padding: 2px 6px;
+        }
+        .dt-timestamp {
+            font-size: 10px;
+            color: var(--ink-muted);
+            margin-left: auto;
+        }
+
+        /* Card actions */
+        .dev-task-card-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .dt-action-btn {
+            font-size: 11px;
+            color: var(--ink-muted);
+            cursor: pointer;
+            background: none;
+            border: 1px solid var(--border-light);
+            padding: 2px 8px;
+            font-family: inherit;
+        }
+        .dt-action-btn:hover { border-color: var(--teal); color: var(--teal); }
+        .dt-action-btn.delete:hover { border-color: #dc2626; color: #dc2626; }
+
+        .dev-task-card-notes {
+            font-size: 12px;
+            color: var(--ink-secondary);
+            margin-top: 6px;
+            font-style: italic;
+            padding-top: 6px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .dt-empty {
+            text-align: center;
+            padding: 32px;
+            color: var(--ink-muted);
+            font-size: 14px;
+            background: white;
+            border: 1px dashed var(--border);
+        }
     </style>
 </head>
 <body>
@@ -771,6 +1086,46 @@
 
         <!-- Summary -->
         <div class="summary" id="summary"></div>
+
+        <!-- Dev Tasks -->
+        <div class="dev-tasks" id="devTasks">
+            <div class="dev-tasks-header">
+                <span class="section-label">CLAUDE CODE TASKS</span>
+                <span class="dev-tasks-count" id="dtCount">0</span>
+                <span class="dev-tasks-sync-status" id="dtSyncStatus"></span>
+                <div class="dev-tasks-actions">
+                    <button class="dev-tasks-add-btn" id="dtAddBtn">ADD DEV TASK</button>
+                    <button class="dev-tasks-settings-btn" id="dtSettingsBtn" title="GitHub sync settings">&#9881;</button>
+                </div>
+            </div>
+            <div id="dtNoBanner"></div>
+            <div class="dev-task-form" id="dtForm">
+                <label>TITLE</label>
+                <input type="text" id="dtTitle" placeholder="e.g. Fix prospect scraper email filtering">
+                <label>DESCRIPTION</label>
+                <textarea id="dtDesc" placeholder="Details, context, acceptance criteria..."></textarea>
+                <div class="dev-task-form-row">
+                    <div>
+                        <label>PRIORITY</label>
+                        <select id="dtPriority">
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>PROJECT</label>
+                        <select id="dtProject"></select>
+                    </div>
+                </div>
+                <div class="dev-task-form-actions">
+                    <button class="dev-tasks-add-btn" id="dtSubmit">SAVE TASK</button>
+                    <button class="dt-modal-btn" id="dtCancel">Cancel</button>
+                </div>
+            </div>
+            <div class="dev-tasks-filters" id="dtFilters"></div>
+            <div id="dtCards"></div>
+        </div>
 
         <!-- View Toggle -->
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
@@ -2011,8 +2366,389 @@
         });
     }
 
+    // ===================== DEV TASKS =====================
+    const DT_STORAGE = 'ysmDevTasks';
+    const DT_TOKEN_KEY = 'ysmGitHubToken';
+    const DT_REPO = 'gavinhmacphee/ysm-tracker';
+    const DT_FILE = 'tasks.json';
+    let dtFilter = 'all';
+
+    function loadDevTasks() {
+        try {
+            const raw = localStorage.getItem(DT_STORAGE);
+            return raw ? JSON.parse(raw) : [];
+        } catch { return []; }
+    }
+
+    function saveDevTasks(tasks) {
+        localStorage.setItem(DT_STORAGE, JSON.stringify(tasks));
+    }
+
+    function getGitHubToken() {
+        return localStorage.getItem(DT_TOKEN_KEY) || '';
+    }
+
+    function setGitHubToken(token) {
+        if (token) localStorage.setItem(DT_TOKEN_KEY, token);
+        else localStorage.removeItem(DT_TOKEN_KEY);
+    }
+
+    // Build project options from all data sources
+    function getProjectOptions() {
+        const projects = [{ value: 'general', label: 'General' }];
+        DEFAULT_PRODUCTS.forEach(p => projects.push({ value: p.id, label: p.name }));
+        SEPARATE_PROJECTS.forEach(p => projects.push({ value: p.name.toLowerCase().replace(/\s+/g, '-'), label: p.name }));
+        INTERNAL_TOOLS.forEach(p => projects.push({ value: p.name.toLowerCase().replace(/\s+/g, '-'), label: p.name }));
+        return projects;
+    }
+
+    function populateProjectSelect() {
+        const sel = document.getElementById('dtProject');
+        sel.innerHTML = getProjectOptions().map(p =>
+            '<option value="' + esc(p.value) + '">' + esc(p.label) + '</option>'
+        ).join('');
+    }
+
+    function renderDevTasks() {
+        const tasks = loadDevTasks();
+        const token = getGitHubToken();
+
+        // Count badge
+        const queuedCount = tasks.filter(t => t.status === 'queued' || t.status === 'in-progress').length;
+        document.getElementById('dtCount').textContent = queuedCount;
+
+        // No-token banner
+        const banner = document.getElementById('dtNoBanner');
+        if (!token) {
+            banner.innerHTML = '<div class="dt-no-token">Set a GitHub token (gear icon) to sync tasks with the repo. Tasks are saved locally only.</div>';
+        } else {
+            banner.innerHTML = '';
+        }
+
+        // Filters
+        const all = tasks.length;
+        const queued = tasks.filter(t => t.status === 'queued').length;
+        const inProg = tasks.filter(t => t.status === 'in-progress').length;
+        const done = tasks.filter(t => t.status === 'done').length;
+        const blocked = tasks.filter(t => t.status === 'blocked').length;
+
+        document.getElementById('dtFilters').innerHTML =
+            '<button class="dt-filter-btn' + (dtFilter === 'all' ? ' active' : '') + '" data-dt-filter="all">All (' + all + ')</button>' +
+            '<button class="dt-filter-btn' + (dtFilter === 'queued' ? ' active' : '') + '" data-dt-filter="queued">Queued (' + queued + ')</button>' +
+            '<button class="dt-filter-btn' + (dtFilter === 'in-progress' ? ' active' : '') + '" data-dt-filter="in-progress">In Progress (' + inProg + ')</button>' +
+            (done > 0 ? '<button class="dt-filter-btn' + (dtFilter === 'done' ? ' active' : '') + '" data-dt-filter="done">Done (' + done + ')</button>' : '') +
+            (blocked > 0 ? '<button class="dt-filter-btn' + (dtFilter === 'blocked' ? ' active' : '') + '" data-dt-filter="blocked">Blocked (' + blocked + ')</button>' : '');
+
+        // Filter tasks
+        let filtered = tasks;
+        if (dtFilter !== 'all') filtered = tasks.filter(t => t.status === dtFilter);
+
+        // Sort: in-progress first, then high > medium > low, then newest
+        const priorityOrder = { high: 0, medium: 1, low: 2 };
+        const statusOrder = { 'in-progress': 0, 'queued': 1, 'blocked': 2, 'done': 3 };
+        filtered.sort((a, b) => {
+            const sd = (statusOrder[a.status] || 9) - (statusOrder[b.status] || 9);
+            if (sd !== 0) return sd;
+            const pd = (priorityOrder[a.priority] || 9) - (priorityOrder[b.priority] || 9);
+            if (pd !== 0) return pd;
+            return (b.createdAt || '').localeCompare(a.createdAt || '');
+        });
+
+        // Render cards
+        const container = document.getElementById('dtCards');
+        if (filtered.length === 0) {
+            container.innerHTML = '<div class="dt-empty">' +
+                (all === 0 ? 'No dev tasks yet. Add one to queue work for Claude Code.' : 'No tasks match this filter.') +
+                '</div>';
+            return;
+        }
+
+        container.innerHTML = filtered.map(t => {
+            const projectLabel = getProjectOptions().find(p => p.value === t.project);
+            const statusLabels = { 'queued': 'Queued', 'in-progress': 'In Progress', 'done': 'Done', 'blocked': 'Blocked' };
+            const nextStatuses = {
+                'queued': ['in-progress', 'blocked'],
+                'in-progress': ['done', 'blocked'],
+                'blocked': ['queued', 'in-progress'],
+                'done': ['queued']
+            };
+            const next = nextStatuses[t.status] || [];
+
+            return '<div class="dev-task-card priority-' + t.priority + '">' +
+                '<div class="dev-task-card-header">' +
+                    '<div class="dev-task-card-title">' + esc(t.title) + '</div>' +
+                '</div>' +
+                (t.description ? '<div class="dev-task-card-desc">' + esc(t.description) + '</div>' : '') +
+                '<div class="dev-task-card-meta">' +
+                    '<span class="dt-badge dt-status-' + t.status + '">' + (statusLabels[t.status] || t.status) + '</span>' +
+                    '<span class="dt-badge dt-priority-' + t.priority + '">' + t.priority + '</span>' +
+                    '<span class="dt-project-tag">' + esc(projectLabel ? projectLabel.label : t.project) + '</span>' +
+                    '<span class="dt-timestamp">' + (t.createdAt || '') + '</span>' +
+                '</div>' +
+                (t.notes ? '<div class="dev-task-card-notes">' + esc(t.notes) + '</div>' : '') +
+                '<div class="dev-task-card-actions">' +
+                    next.map(s => '<button class="dt-action-btn" data-dt-status="' + t.id + '" data-dt-new-status="' + s + '">' + (statusLabels[s] || s) + '</button>').join('') +
+                    '<button class="dt-action-btn delete" data-dt-delete="' + t.id + '">Delete</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function addDevTask(title, desc, priority, project) {
+        const tasks = loadDevTasks();
+        const task = {
+            id: 't-' + Date.now(),
+            title: title,
+            description: desc,
+            priority: priority,
+            project: project,
+            status: 'queued',
+            createdAt: todayStr(),
+            updatedAt: todayStr(),
+            completedAt: null,
+            notes: ''
+        };
+        tasks.push(task);
+        saveDevTasks(tasks);
+        pushToGitHub(tasks);
+        renderDevTasks();
+    }
+
+    function updateDevTaskStatus(id, newStatus) {
+        const tasks = loadDevTasks();
+        const task = tasks.find(t => t.id === id);
+        if (!task) return;
+        task.status = newStatus;
+        task.updatedAt = todayStr();
+        if (newStatus === 'done') task.completedAt = todayStr();
+        saveDevTasks(tasks);
+        pushToGitHub(tasks);
+        renderDevTasks();
+    }
+
+    function deleteDevTask(id) {
+        let tasks = loadDevTasks();
+        tasks = tasks.filter(t => t.id !== id);
+        saveDevTasks(tasks);
+        pushToGitHub(tasks);
+        renderDevTasks();
+    }
+
+    function todayStr() {
+        const d = new Date();
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+
+    // GitHub sync
+    async function pushToGitHub(tasks) {
+        const token = getGitHubToken();
+        if (!token) return;
+        const statusEl = document.getElementById('dtSyncStatus');
+        statusEl.textContent = 'Syncing...';
+        statusEl.className = 'dev-tasks-sync-status';
+
+        try {
+            // Get current file SHA (needed for update)
+            const getResp = await fetch('https://api.github.com/repos/' + DT_REPO + '/contents/' + DT_FILE, {
+                headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+            });
+            let sha = null;
+            if (getResp.ok) {
+                const data = await getResp.json();
+                sha = data.sha;
+            }
+
+            const content = JSON.stringify({ tasks: tasks, lastUpdated: todayStr() }, null, 2);
+            const body = {
+                message: 'Update tasks.json - ' + todayStr(),
+                content: btoa(unescape(encodeURIComponent(content)))
+            };
+            if (sha) body.sha = sha;
+
+            const putResp = await fetch('https://api.github.com/repos/' + DT_REPO + '/contents/' + DT_FILE, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'token ' + token,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (putResp.ok) {
+                statusEl.textContent = 'Synced';
+                statusEl.className = 'dev-tasks-sync-status synced';
+            } else {
+                const err = await putResp.json();
+                statusEl.textContent = 'Sync failed';
+                statusEl.className = 'dev-tasks-sync-status error';
+                console.error('GitHub push failed:', err);
+            }
+        } catch (e) {
+            statusEl.textContent = 'Sync error';
+            statusEl.className = 'dev-tasks-sync-status error';
+            console.error('GitHub sync error:', e);
+        }
+
+        setTimeout(function() {
+            const el = document.getElementById('dtSyncStatus');
+            if (el) { el.textContent = ''; el.className = 'dev-tasks-sync-status'; }
+        }, 4000);
+    }
+
+    async function fetchFromGitHub() {
+        const token = getGitHubToken();
+        if (!token) return;
+        const statusEl = document.getElementById('dtSyncStatus');
+        statusEl.textContent = 'Loading...';
+        statusEl.className = 'dev-tasks-sync-status';
+
+        try {
+            const resp = await fetch('https://api.github.com/repos/' + DT_REPO + '/contents/' + DT_FILE, {
+                headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+            });
+            if (!resp.ok) {
+                statusEl.textContent = '';
+                return;
+            }
+            const data = await resp.json();
+            const content = decodeURIComponent(escape(atob(data.content)));
+            const remote = JSON.parse(content);
+            if (!remote.tasks || !Array.isArray(remote.tasks)) return;
+
+            // Merge: GitHub is source of truth
+            const local = loadDevTasks();
+            const remoteIds = new Set(remote.tasks.map(t => t.id));
+            const localIds = new Set(local.map(t => t.id));
+
+            // Start with all remote tasks
+            const merged = [...remote.tasks];
+
+            // Add any local-only tasks (created offline)
+            local.forEach(t => {
+                if (!remoteIds.has(t.id)) merged.push(t);
+            });
+
+            saveDevTasks(merged);
+            renderDevTasks();
+            statusEl.textContent = 'Synced';
+            statusEl.className = 'dev-tasks-sync-status synced';
+            setTimeout(function() {
+                const el = document.getElementById('dtSyncStatus');
+                if (el) { el.textContent = ''; el.className = 'dev-tasks-sync-status'; }
+            }, 3000);
+        } catch (e) {
+            statusEl.textContent = 'Load failed';
+            statusEl.className = 'dev-tasks-sync-status error';
+            console.error('GitHub fetch error:', e);
+        }
+    }
+
+    // Settings modal
+    function showTokenModal() {
+        const existing = getGitHubToken();
+        const overlay = document.createElement('div');
+        overlay.className = 'dt-modal-overlay';
+        overlay.innerHTML =
+            '<div class="dt-modal">' +
+                '<h3>GITHUB SYNC SETTINGS</h3>' +
+                '<p>Paste a fine-grained Personal Access Token with Contents read/write permission on <code>' + DT_REPO + '</code>. The token is stored in localStorage only - never committed.</p>' +
+                '<input type="password" id="dtTokenInput" placeholder="github_pat_..." value="' + esc(existing) + '">' +
+                '<div class="dt-modal-btns">' +
+                    (existing ? '<button class="dt-modal-btn danger" id="dtTokenRemove">Remove Token</button>' : '') +
+                    '<button class="dt-modal-btn" id="dtTokenCancel">Cancel</button>' +
+                    '<button class="dt-modal-btn primary" id="dtTokenSave">Save</button>' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay || e.target.id === 'dtTokenCancel') {
+                overlay.remove();
+            }
+            if (e.target.id === 'dtTokenSave') {
+                const val = document.getElementById('dtTokenInput').value.trim();
+                setGitHubToken(val);
+                overlay.remove();
+                renderDevTasks();
+                if (val) fetchFromGitHub();
+            }
+            if (e.target.id === 'dtTokenRemove') {
+                setGitHubToken('');
+                overlay.remove();
+                renderDevTasks();
+            }
+        });
+    }
+
+    // Dev tasks event delegation
+    document.addEventListener('click', function(e) {
+        // Add button
+        if (e.target.id === 'dtAddBtn') {
+            const form = document.getElementById('dtForm');
+            form.classList.toggle('visible');
+            if (form.classList.contains('visible')) {
+                document.getElementById('dtTitle').focus();
+            }
+            return;
+        }
+
+        // Cancel form
+        if (e.target.id === 'dtCancel') {
+            document.getElementById('dtForm').classList.remove('visible');
+            return;
+        }
+
+        // Submit form
+        if (e.target.id === 'dtSubmit') {
+            const title = document.getElementById('dtTitle').value.trim();
+            if (!title) { document.getElementById('dtTitle').focus(); return; }
+            const desc = document.getElementById('dtDesc').value.trim();
+            const priority = document.getElementById('dtPriority').value;
+            const project = document.getElementById('dtProject').value;
+            addDevTask(title, desc, priority, project);
+            document.getElementById('dtTitle').value = '';
+            document.getElementById('dtDesc').value = '';
+            document.getElementById('dtPriority').value = 'medium';
+            document.getElementById('dtForm').classList.remove('visible');
+            return;
+        }
+
+        // Settings
+        if (e.target.id === 'dtSettingsBtn' || e.target.closest('#dtSettingsBtn')) {
+            showTokenModal();
+            return;
+        }
+
+        // Filter
+        const filterBtn = e.target.closest('[data-dt-filter]');
+        if (filterBtn) {
+            dtFilter = filterBtn.dataset.dtFilter;
+            renderDevTasks();
+            return;
+        }
+
+        // Status change
+        const statusBtn = e.target.closest('[data-dt-status]');
+        if (statusBtn && statusBtn.dataset.dtNewStatus) {
+            updateDevTaskStatus(statusBtn.dataset.dtStatus, statusBtn.dataset.dtNewStatus);
+            return;
+        }
+
+        // Delete
+        const delBtn = e.target.closest('[data-dt-delete]');
+        if (delBtn) {
+            deleteDevTask(delBtn.dataset.dtDelete);
+            return;
+        }
+    });
+
     // ===================== INIT =====================
+    populateProjectSelect();
     render();
+    renderDevTasks();
+    fetchFromGitHub();
     </script>
 </body>
 </html>
