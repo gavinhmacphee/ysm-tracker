@@ -11,7 +11,19 @@
       "updatedAt": "Feb 18, 2026",
       "completedAt": null,
       "notes": ""
+    },
+    {
+      "id": "t-1771478917201",
+      "title": "Create frontend preview of Kids Soccer Directory",
+      "description": "We have lots of data in the system now - lets see what the directory will look like",
+      "priority": "high",
+      "project": "general",
+      "status": "in-progress",
+      "createdAt": "Feb 19, 2026",
+      "updatedAt": "Feb 19, 2026",
+      "completedAt": null,
+      "notes": ""
     }
   ],
-  "lastUpdated": "Feb 18, 2026"
+  "lastUpdated": "Feb 19, 2026"
 }
