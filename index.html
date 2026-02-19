@@ -2467,7 +2467,7 @@
             const projectLabel = getProjectOptions().find(p => p.value === t.project);
             const statusLabels = { 'queued': 'Queued', 'in-progress': 'In Progress', 'done': 'Done', 'blocked': 'Blocked' };
             const nextStatuses = {
-                'queued': ['in-progress', 'blocked'],
+                'queued': ['in-progress', 'done', 'blocked'],
                 'in-progress': ['done', 'blocked'],
                 'blocked': ['queued', 'in-progress'],
                 'done': ['queued']
@@ -2669,6 +2669,10 @@
             }
             if (e.target.id === 'dtTokenSave') {
                 const val = document.getElementById('dtTokenInput').value.trim();
+                if (val && val.length < 80) {
+                    alert('That token looks too short (' + val.length + ' chars). GitHub fine-grained tokens are usually 90+ characters. Check that the full token was pasted.');
+                    return;
+                }
                 setGitHubToken(val);
                 overlay.remove();
                 renderDevTasks();
